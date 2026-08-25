@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Accept-Rejection Sampler for MSN Burr Distribution | Portfolio</title>
+    <style>
+        /* Modern Portfolio Styling */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1f2937;
+            --secondary-text: #6b7280;
+            --primary-accent: #2563eb;
+            --code-bg: #f3f4f6;
+            --border-color: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .badges { margin-bottom: 20px; }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 6px;
+            color: white;
+        }
+        .badge.blue { background-color: #2563eb; }
+        .badge.green { background-color: #16a34a; }
+        .badge.orange { background-color: #ea580c; }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: var(--secondary-text);
+        }
+
+        .tldr {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary-accent);
+            padding: 15px 20px;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        code { font-family: "Fira Code", "Consolas", monospace; }
+        
+        p code {
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        figure { margin: 30px 0; }
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            background-color: #e5e7eb; /* Shows if image is missing */
+        }
+        figcaption {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            font-style: italic;
+        }
+
+        ul { padding-left: 20px; margin-bottom: 20px; }
+        li { margin-bottom: 8px; color: var(--secondary-text); }
+        li strong { color: var(--text-color); }
+
+        a {
+            color: var(--primary-accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: text-decoration 0.2s ease-in-out;
+        }
+        a:hover { text-decoration: underline; }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="badges">
+        <span class="badge blue">R Programming</span>
+        <span class="badge green">Computational Statistics</span>
+        <span class="badge orange">MCMC Algorithms</span>
+    </div>
+
+    <h1>Building a Custom Accept-Rejection Sampler for the MSN Burr Distribution</h1>
+
+    <p class="tldr">
+        <strong>TL;DR:</strong> Standard optimization algorithms fail when estimating parameters for highly complex, skewed distributions. I built a custom Markov Chain Accept-Rejection Sampler from scratch in R to accurately estimate parameters for the MSN Burr distribution.
+    </p>
+
+    <h2>The Problem</h2>
+    <p>In statistical modeling, real-world data (like insurance claims or machine failure rates) rarely follows a perfect normal distribution. The <strong>MSN Burr distribution</strong> is excellent for this because it handles heavy tails and extreme skewness.</p>
+    <p>However, it has a major flaw: its likelihood function is a mathematical nightmare. It's highly multimodal, meaning standard out-of-the-box functions in R (like <code>optim()</code> or <code>maxLik</code>) frequently crash or give completely wrong answers by getting stuck in "local dips" rather than finding the true bottom of the curve.</p>
+
+    <h2>The Solution</h2>
+    <p>Instead of relying on pre-built packages, I wrote a custom <strong>Markov Chain Monte Carlo (MCMC)</strong> algorithm utilizing an <strong>Accept-Rejection Sampling</strong> technique.</p>
+    <p>The mathematical "trick" I leveraged was using the standard Burr distribution as the proposal engine. Because of how the Skew-Normal transformation works, the complex math cancels out perfectly, resulting in an incredibly fast and elegant acceptance ratio that doesn't require calculating massive matrix inversions at every step.</p>
+
+    <h2>The Code</h2>
+    <p>Here is the core of the custom random number generator I built. Notice how clean the acceptance step (<code>w</code>) becomes once the baseline densities cancel out:</p>
+
+    <pre><code class="language-r">rmsnburr &lt;- function(n, c, k, lambda, alpha = 0, beta = 1) {
+  samples &lt;- numeric(n)
+  accepted &lt;- 0
+  
+  while(accepted &lt; n) {
+    # 1. Propose from baseline Burr distribution
+    y &lt;- rburr(1, c, k, alpha, beta)
+    
+    # 2. Calculate elegant acceptance probability (M=2, densities cancel out)
+    F_y &lt;- pburr(y, c, k, alpha, beta)
+    F_y &lt;- pmax(pmin(F_y, 1 - 1e-10), 1e-10) # Boundary safety
+    w &lt;- pnorm(lambda * qnorm(F_y)) 
+    
+    # 3. Accept or Reject
+    if (runif(1) &lt;= w) {
+      accepted &lt;- accepted + 1
+      samples[accepted] &lt;- y
+    }
+  }
+  return(samples)
+}</code></pre>
+
+    <h2>Visualizing the Results</h2>
+    <p>To prove the algorithm works, I used <code>ggplot2</code> to generate samples from the distribution across varying levels of skewness (&lambda;). As you can see, the algorithm perfectly captures everything from extreme left-skew to extreme right-skew.</p>
+    
+    <figure>
+        <!-- NOTE: Change "image-placeholder.jpg" to your actual graph file name! -->
+        <img src="image-placeholder.jpg" alt="Probability Density Functions of the MSN Burr distribution showing varying levels of skewness.">
+        <figcaption>Probability Density Functions of the MSN Burr distribution at varying skewness levels.</figcaption>
+    </figure>
+
+    <h2>Why This Matters</h2>
+    <p>By building this from the ground up rather than using a black-box package, I ensured the model would not fail on edge-case datasets. The MC-ARS method proved to be highly robust, consistently converging on true parameter values with low Mean Squared Error (MSE), even with small sample sizes.</p>
+
+    <h3>Tech Stack &amp; Skills Demonstrated:</h3>
+    <ul>
+        <li><strong>R Programming:</strong> Custom function design, vectorization, <code>ggplot2</code> data visualization.</li>
+        <li><strong>Computational Statistics:</strong> MCMC algorithms, Accept-Rejection sampling, Likelihood theory.</li>
+        <li><strong>Statistical Modeling:</strong> Heavy-tailed distributions, Skew-Normal transformations.</li>
+    </ul>
+
+    <hr>
+
+    <!-- NOTE: Change the # link below to your actual GitHub repository URL -->
+    <p><a href="https://github.com/yourusername/your-repo" target="_blank" rel="noopener noreferrer">View the Full R Script on my GitHub ➔</a></p>
+
+</body>
+</html>
