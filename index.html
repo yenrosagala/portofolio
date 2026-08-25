@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" class="no-scrollbar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yenro Sagala — Data Analyst</title>
+  <meta name="description" content="Data Analyst Portfolio of Yenro Sagala">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:#fafafa;color:#18181b;overflow-x:hidden}
+    .font-serif{font-family:'Newsreader',serif}
+    .no-scrollbar::-webkit-scrollbar{display:none}
+    .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+    ::selection{background:rgba(56,189,248,0.2);color:#0369a1}
+    .gradient-text{background:linear-gradient(to right,#27272a,#09090b,#52525b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .gradient-accent{background:linear-gradient(to right,#0284c7,#4f46e5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .float-1{animation:float 6s ease-in-out infinite}
+    .float-2{animation:float 8s ease-in-out infinite}
+    @keyframes dash-flow{to{stroke-dashoffset:-1000}}
+    .dash-anim{stroke-dasharray:40 400;animation:dash-flow 10s linear infinite}
+    @keyframes spin-slow{to{transform:rotate(360deg)}}
+    .spin-slow{animation:spin-slow 15s linear infinite}
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    .stagger .reveal:nth-child(1){transition-delay:0ms}
+    .stagger .reveal:nth-child(2){transition-delay:80ms}
+    .stagger .reveal:nth-child(3){transition-delay:160ms}
+    .stagger .reveal:nth-child(4){transition-delay:240ms}
+    .stagger .reveal:nth-child(5){transition-delay:320ms}
+    .stagger .reveal:nth-child(6){transition-delay:400ms}
+    .stagger .reveal:nth-child(7){transition-delay:480ms}
+    .stagger .reveal:nth-child(8){transition-delay:560ms}
+    .card-hover{transition:border-color .5s,box-shadow .5s,transform .5s}
+    .card-hover:hover{border-color:#e4e4e7;box-shadow:0 8px 30px rgba(0,0,0,0.08);transform:translateY(-2px)}
+    .project-img{transition:transform .7s cubic-bezier(.16,1,.3,1)}
+    .project-card:hover .project-img{transform:scale(1.05)}
+    .nav-link{position:relative}
+    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:linear-gradient(to right,#0284c7,#4f46e5);transition:width .3s;border-radius:1px}
+    .nav-link:hover::after,.nav-link.active::after{width:100%}
+    .sidebar{transition:transform .4s cubic-bezier(.16,1,.3,1)}
+    .sidebar.closed{transform:translateX(-100%)}
+    .main-content{transition:margin-left .4s cubic-bezier(.16,1,.3,1)}
+    .accordion-body{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1)}
+    .accordion-body.open{max-height:500px}
+    .accordion-chevron{transition:transform .3s}
+    .accordion-chevron.open{transform:rotate(180deg)}
+    .project-item{transition:opacity .4s,transform .4s}
+    .project-item.hidden-item{opacity:0;transform:scale(0.95);position:absolute;pointer-events:none}
+    @keyframes toast-in{from{transform:translateY(20px) translateX(-50%);opacity:0}to{transform:translateY(0) translateX(-50%);opacity:1}}
+    @keyframes toast-out{from{transform:translateY(0) translateX(-50%);opacity:1}to{transform:translateY(20px) translateX(-50%);opacity:0}}
+    .toast-in{animation:toast-in .4s ease forwards}
+    .toast-out{animation:toast-out .4s ease forwards}
+    .counter-num{font-variant-numeric:tabular-nums}
+    @media(max-width:1023px){.sidebar{position:fixed;z-index:60}}
+    .bg-dots{background-image:radial-gradient(circle,#d4d4d8 0.5px,transparent 0.5px);background-size:24px 24px}
+    .tool-tag{transition:background .2s,color .2s}
+    .tool-tag:hover{background:#0284c7;color:#fff}
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- Background -->
+<div class="fixed inset-0 pointer-events-none z-0">
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-sky-100/60 to-transparent rounded-full blur-[100px]"></div>
+  <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gradient-to-tl from-indigo-100/40 to-transparent rounded-full blur-[120px]"></div>
+</div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-[280px] bg-white border-r border-zinc-200 z-50 flex flex-col lg:translate-x-0 closed lg:!transform-none shadow-xl shadow-black/5">
+  <div class="p-6 text-center border-b border-zinc-100">
+    <div class="w-24 h-24 rounded-3xl mx-auto mb-4 overflow-hidden border-2 border-zinc-200 shadow-lg shadow-black/5">
+      <img src="images/about.jpg" alt="Yenro Sagala" class="w-full h-full object-cover">
+    </div>
+    <h1 class="text-lg font-semibold tracking-tight text-zinc-900">Yenro Sagala</h1>
+    <p class="text-sm text-zinc-500 mt-1">Data Analyst in Indonesia</p>
+  </div>
+  <nav class="flex-1 py-6 px-4 space-y-1 overflow-y-auto no-scrollbar">
+    <a href="#home" class="sidebar-link nav-link active flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all"><i data-lucide="home" class="w-4 h-4 flex-shrink-0"></i> Home</a>
+    <a href="#about" class="sidebar-link nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all"><i data-lucide="user" class="w-4 h-4 flex-shrink-0"></i> About</a>
+    <a href="#tools" class="sidebar-link nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all"><i data-lucide="wrench" class="w-4 h-4 flex-shrink-0"></i> Tools</a>
+    <a href="#education" class="sidebar-link nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all"><i data-lucide="graduation-cap" class="w-4 h-4 flex-shrink-0"></i> Education</a>
+    <a href="#certifications" class="sidebar-link nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all"><i data-lucide="award" class="w-4 h-4 flex-shrink-0"></i> Certifications</a>
+    <a href="#experience" class="sidebar-link nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all"><i data-lucide="briefcase" class="w-4 h-4 flex-shrink-0"></i> Experience</a>
+    <a href="#work" class="sidebar-link nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all"><i data-lucide="folder-open" class="w-4 h-4 flex-shrink-0"></i> Work</a>
+    <a href="#contact" class="sidebar-link nav-link flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50 transition-all"><i data-lucide="mail" class="w-4 h-4 flex-shrink-0"></i> Contact</a>
+  </nav>
+  <div class="p-6 border-t border-zinc-100">
+    <div class="flex items-center justify-center gap-3 mb-4">
+      <a href="#" class="w-9 h-9 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-center hover:border-zinc-300 hover:bg-zinc-100 transition-all" aria-label="Facebook"><i data-lucide="facebook" class="w-4 h-4 text-zinc-500"></i></a>
+      <a href="#" class="w-9 h-9 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-center hover:border-zinc-300 hover:bg-zinc-100 transition-all" aria-label="Twitter"><i data-lucide="twitter" class="w-4 h-4 text-zinc-500"></i></a>
+      <a href="https://www.instagram.com/jorinenuy08/" target="_blank" class="w-9 h-9 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-center hover:border-zinc-300 hover:bg-zinc-100 transition-all" aria-label="Instagram"><i data-lucide="instagram" class="w-4 h-4 text-zinc-500"></i></a>
+      <a href="https://www.linkedin.com/in/yenrosagala" target="_blank" class="w-9 h-9 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-center hover:border-zinc-300 hover:bg-zinc-100 transition-all" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-4 h-4 text-zinc-500"></i></a>
+    </div>
+    <p class="text-[11px] text-zinc-400 text-center">&copy; <script>document.write(new Date().getFullYear());</script> Yenro Sagala</p>
+  </div>
+</aside>
+
+<!-- Mobile Header -->
+<div class="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-xl border-b border-zinc-200">
+  <div class="flex items-center justify-between px-5 py-4">
+    <button id="sidebar-toggle" class="w-10 h-10 flex items-center justify-center rounded-xl border border-zinc-200 hover:border-zinc-300 transition-colors" aria-label="Toggle menu"><i data-lucide="menu" class="w-5 h-5 text-zinc-600"></i></button>
+    <span class="text-sm font-medium text-zinc-900">Yenro Sagala</span>
+    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 flex items-center justify-center text-white font-semibold text-[10px] shadow-lg shadow-sky-500/20">YS</div>
+  </div>
+</div>
+<div id="sidebar-overlay" class="fixed inset-0 bg-black/30 z-[55] hidden lg:hidden backdrop-blur-sm"></div>
+
+<!-- MAIN -->
+<main id="main-content" class="main-content lg:ml-[280px] relative z-10">
+
+  <!-- HOME -->
+  <section id="home" class="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
+    <svg class="absolute inset-0 w-full h-full opacity-30 pointer-events-none" viewBox="0 0 1200 900" fill="none">
+      <path d="M100 100 Q600 200 1100 100" stroke="rgba(0,0,0,0.04)" stroke-width="1" class="dash-anim"/>
+      <path d="M50 400 Q600 300 1150 500" stroke="rgba(0,0,0,0.03)" stroke-width="1" class="dash-anim" style="animation-delay:-3s"/>
+    </svg>
+    <div class="absolute top-32 right-[15%] float-1 hidden md:block"><div class="w-10 h-10 rounded-full border border-sky-200"></div></div>
+    <div class="absolute bottom-40 left-[15%] float-2 hidden md:block"><div class="w-6 h-6 rounded-md bg-sky-100 rotate-45"></div></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] pointer-events-none opacity-[0.03]"><div class="spin-slow w-full h-full rounded-full border border-zinc-400"></div></div>
+    <div class="max-w-3xl mx-auto text-center pt-16 lg:pt-0">
+      <div class="reveal">
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-zinc-200 bg-white shadow-sm mb-8">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.3)]"></span>
+          <span class="text-xs font-medium text-zinc-500 tracking-wide uppercase">Open to Opportunities</span>
+        </span>
+      </div>
+      <h1 class="reveal font-serif text-5xl sm:text-6xl lg:text-7xl font-normal leading-[0.95] tracking-tight mb-6">
+        <span class="gradient-text">Hi! I'm</span><br><span class="gradient-accent">Yenro</span>
+      </h1>
+      <p class="reveal text-lg sm:text-xl text-zinc-500 font-light leading-relaxed max-w-xl mx-auto mb-10">
+        A data analyst who loves diving into data and finding the hidden gems. Turning raw numbers into meaningful insights.
+      </p>
+      <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="https://www.canva.com/design/DAGV0fys9-0/Xm4oyqBhFV_AVCEmZwINsA/view?utm_content=DAGV0fys9-0&utm_campaign=designshare&utm_medium=link&utm_source=editor" target="_blank" class="group px-8 py-4 bg-zinc-900 text-white text-sm font-semibold rounded-full hover:bg-zinc-800 transition-all hover:shadow-lg hover:shadow-zinc-900/15 flex items-center gap-2">
+          Download CV <i data-lucide="download" class="w-4 h-4 group-hover:translate-y-0.5 transition-transform"></i>
+        </a>
+        <a href="https://myasn.bkn.go.id/verifikasi/kartu-asn?qr=Rk5FS256aUppZDlMeSUyRlI1VFFvMlFEVGJ6T1VIb2RBelglMkJtZlo1TlNvZDNrVG5raTd6bU9tS2RrZ09BSyUyRjA5Tw==nbks4pkb3e1a8c57f9fe70e3fec11f88f3742457c7950ea" target="_blank" class="px-8 py-4 text-sm font-medium text-zinc-600 border border-zinc-200 rounded-full hover:border-zinc-300 hover:text-zinc-900 hover:bg-white transition-all flex items-center gap-2 shadow-sm">
+          <i data-lucide="badge-check" class="w-4 h-4"></i> View Credential
+        </a>
+      </div>
+      <div class="reveal mt-20 flex flex-col items-center gap-2 opacity-40">
+        <span class="text-[10px] uppercase tracking-[0.2em] text-zinc-400">Scroll</span>
+        <div class="w-px h-8 bg-gradient-to-b from-zinc-400 to-transparent"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="py-24 md:py-32 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="text-xs font-mono uppercase tracking-[0.2em] text-sky-600 mb-4 block">About Me</span>
+        <h2 class="font-serif text-3xl md:text-5xl font-normal tracking-tight gradient-text mb-8">Who Am I?</h2>
+      </div>
+      <div class="reveal space-y-4 text-zinc-500 font-light leading-relaxed text-base md:text-lg mb-12">
+        <p><strong class="text-zinc-900 font-medium">Hi there, I'm Yenro Sagala</strong> — a data analyst who loves diving into data and finding the hidden gems. I'm good at cleaning messy data, crunching numbers, making pretty charts and soon. I use tools like SQL, Python, R to turn data into something useful.</p>
+        <p>I'm always looking for new challenges and ways to help businesses make smarter decisions.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger">
+        <div class="reveal card-hover p-6 rounded-2xl bg-white border border-zinc-200 text-center group shadow-sm">
+          <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 group-hover:border-sky-200 transition-all duration-500"><i data-lucide="lightbulb" class="w-5 h-5 text-sky-600"></i></div>
+          <h3 class="text-sm font-medium text-zinc-900 mb-1">Data Mining</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">Extracting patterns from large datasets using Python & SQL</p>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-white border border-zinc-200 text-center group shadow-sm">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 group-hover:border-emerald-200 transition-all duration-500"><i data-lucide="bar-chart-3" class="w-5 h-5 text-emerald-600"></i></div>
+          <h3 class="text-sm font-medium text-zinc-900 mb-1">Data Visualization</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">Building interactive dashboards in Tableau, Shiny & Streamlit</p>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-white border border-zinc-200 text-center group shadow-sm">
+          <div class="w-12 h-12 rounded-2xl bg-violet-50 border border-violet-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 group-hover:border-violet-200 transition-all duration-500"><i data-lucide="file-text" class="w-5 h-5 text-violet-600"></i></div>
+          <h3 class="text-sm font-medium text-zinc-900 mb-1">Descriptive Analysis</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">Summarizing data with statistics to tell clear stories</p>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-white border border-zinc-200 text-center group shadow-sm">
+          <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center mx-auto mb-4 group-hover:scale-105 group-hover:border-amber-200 transition-all duration-500"><i data-lucide="trending-up" class="w-5 h-5 text-amber-600"></i></div>
+          <h3 class="text-sm font-medium text-zinc-900 mb-1">Inference Analysis</h3>
+          <p class="text-xs text-zinc-400 leading-relaxed">Drawing conclusions from data using hypothesis testing</p>
+        </div>
+      </div>
+      <div class="reveal mt-12 p-8 rounded-2xl bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-100 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
+        <div>
+          <h3 class="text-xl font-serif text-zinc-900">8+ years of experience with<br><span class="gradient-accent">numerous surveys & data projects completed!</span></h3>
+        </div>
+        <a href="#contact" class="flex-shrink-0 px-6 py-3 bg-zinc-900 text-white text-sm font-semibold rounded-full hover:bg-zinc-800 transition-all hover:shadow-lg hover:shadow-zinc-900/15">Hire me</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section id="tools" class="py-24 md:py-32 px-6 bg-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-dots opacity-20 pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto relative">
+      <div class="reveal text-center mb-12">
+        <span class="text-xs font-mono uppercase tracking-[0.2em] text-sky-600 mb-4 block">Tech Stack</span>
+        <h2 class="font-serif text-3xl md:text-5xl font-normal tracking-tight gradient-text">Tools & Technologies</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 stagger">
+        <div class="reveal card-hover p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center"><i data-lucide="code-2" class="w-5 h-5 text-sky-600"></i></div>
+            <h3 class="text-sm font-semibold text-zinc-900">Programming</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Python</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">R</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">SQL</span>
+          </div>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center"><i data-lucide="blocks" class="w-5 h-5 text-emerald-600"></i></div>
+            <h3 class="text-sm font-semibold text-zinc-900">Libraries</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Pandas</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">NumPy</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">ggplot2</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">dplyr</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Scikit-learn</span>
+          </div>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center"><i data-lucide="bar-chart-3" class="w-5 h-5 text-violet-600"></i></div>
+            <h3 class="text-sm font-semibold text-zinc-900">Visualization</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Tableau</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Power BI</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Shiny R</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Streamlit</span>
+          </div>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-100 flex items-center justify-center"><i data-lucide="table" class="w-5 h-5 text-amber-600"></i></div>
+            <h3 class="text-sm font-semibold text-zinc-900">Spreadsheet</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Microsoft Excel</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Google Sheets</span>
+          </div>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-rose-50 border border-rose-100 flex items-center justify-center"><i data-lucide="database" class="w-5 h-5 text-rose-600"></i></div>
+            <h3 class="text-sm font-semibold text-zinc-900">Data & Database</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">PostgreSQL</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">MySQL</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Web Scraping</span>
+          </div>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-cyan-50 border border-cyan-100 flex items-center justify-center"><i data-lucide="settings" class="w-5 h-5 text-cyan-600"></i></div>
+            <h3 class="text-sm font-semibold text-zinc-900">Other</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">Git</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">LaTeX</span>
+            <span class="tool-tag px-3 py-1.5 text-xs text-zinc-600 bg-white border border-zinc-200 rounded-lg cursor-default">SPSS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COUNTERS -->
+  <section class="py-16 px-6 border-y border-zinc-200 bg-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-dots opacity-30 pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto relative">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 stagger">
+        <div class="reveal text-center">
+          <div class="text-3xl md:text-4xl font-serif text-zinc-900 counter-num" data-target="309">0</div>
+          <div class="text-xs text-zinc-400 mt-2 uppercase tracking-wider">Cups of coffee</div>
+        </div>
+        <div class="reveal text-center">
+          <div class="text-3xl md:text-4xl font-serif text-zinc-900 counter-num" data-target="50">0</div>
+          <div class="text-xs text-zinc-400 mt-2 uppercase tracking-wider">Surveys & Projects</div>
+        </div>
+        <div class="reveal text-center">
+          <div class="text-3xl md:text-4xl font-serif text-zinc-900 counter-num" data-target="8">0</div>
+          <div class="text-xs text-zinc-400 mt-2 uppercase tracking-wider">Years Experience</div>
+        </div>
+        <div class="reveal text-center">
+          <div class="text-3xl md:text-4xl font-serif text-zinc-900 counter-num" data-target="10">0</div>
+          <div class="text-xs text-zinc-400 mt-2 uppercase tracking-wider">Partners</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="py-24 md:py-32 px-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="reveal">
+        <span class="text-xs font-mono uppercase tracking-[0.2em] text-sky-600 mb-4 block">Education</span>
+        <h2 class="font-serif text-3xl md:text-5xl font-normal tracking-tight gradient-text mb-12">Education</h2>
+      </div>
+      <div class="space-y-4">
+        <!-- Master -->
+        <div class="reveal">
+          <button class="accordion-btn w-full text-left p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-300 transition-colors flex items-center justify-between gap-4 shadow-sm" aria-expanded="true">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center flex-shrink-0"><i data-lucide="graduation-cap" class="w-5 h-5 text-sky-600"></i></div>
+              <div class="text-left">
+                <h3 class="text-base font-medium text-zinc-900">Master Degree Statistic</h3>
+                <p class="text-xs text-zinc-400 mt-0.5">Institut Teknologi Sepuluh Nopember — Expected Feb 2026</p>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-zinc-400 flex-shrink-0 accordion-chevron open"></i>
+          </button>
+          <div class="accordion-body open">
+            <div class="px-6 py-5 rounded-b-2xl bg-zinc-50 border border-t-0 border-zinc-200 -mt-2 pt-8">
+              <div class="grid md:grid-cols-2 gap-6 text-sm text-zinc-500 leading-relaxed">
+                <p>I am pursuing my Magister's degree in Statistic at <strong class="text-zinc-900"><a href="https://www.its.ac.id" target="_blank" class="hover:text-sky-600 transition-colors">Institut Teknologi Sepuluh Nopember, Expected Feb 2026</a></strong> at Surabaya.</p>
+                <p>During my studies, I focus on Spatial Data Analysis and advanced statistical modeling. This academic experience equips me with skills to analyze data based on geographic location.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bachelor -->
+        <div class="reveal">
+          <button class="accordion-btn w-full text-left p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-300 transition-colors flex items-center justify-between gap-4 shadow-sm" aria-expanded="false">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0"><i data-lucide="graduation-cap" class="w-5 h-5 text-emerald-600"></i></div>
+              <div class="text-left">
+                <h3 class="text-base font-medium text-zinc-900">Bachelor Degree of Statistic</h3>
+                <p class="text-xs text-zinc-400 mt-0.5">Sekolah Tinggi Ilmu Statistik, 2015</p>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-zinc-400 flex-shrink-0 accordion-chevron"></i>
+          </button>
+          <div class="accordion-body">
+            <div class="px-6 py-5 rounded-b-2xl bg-zinc-50 border border-t-0 border-zinc-200 -mt-2 pt-8">
+              <p class="text-sm text-zinc-500 leading-relaxed">I hold a Bachelor's degree in Statistic from <strong class="text-zinc-900"><a href="https://stis.ac.id/" target="_blank" class="hover:text-sky-600 transition-colors">Sekolah Tinggi Ilmu Statistik, 2015</a></strong>. My studies included core statistical concepts, data analysis techniques, and programming languages like R and Python.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Highschool -->
+        <div class="reveal">
+          <button class="accordion-btn w-full text-left p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-300 transition-colors flex items-center justify-between gap-4 shadow-sm" aria-expanded="false">
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 rounded-xl bg-violet-50 border border-violet-100 flex items-center justify-center flex-shrink-0"><i data-lucide="school" class="w-5 h-5 text-violet-600"></i></div>
+              <div class="text-left">
+                <h3 class="text-base font-medium text-zinc-900">Highschool Education</h3>
+                <p class="text-xs text-zinc-400 mt-0.5">SMA N. 1 Pangururan, 2011</p>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="w-5 h-5 text-zinc-400 flex-shrink-0 accordion-chevron"></i>
+          </button>
+          <div class="accordion-body">
+            <div class="px-6 py-5 rounded-b-2xl bg-zinc-50 border border-t-0 border-zinc-200 -mt-2 pt-8">
+              <p class="text-sm text-zinc-500 leading-relaxed">I graduated from <strong class="text-zinc-900">SMA N. 1 Pangururan</strong> in 2011. During my time there, I focused on Mathematics, Science, and Microsoft Excel. I participated in the Mathematics Olympiad at the Regency level, achieving runner-up status.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications" class="py-24 md:py-32 px-6 bg-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-dots opacity-20 pointer-events-none"></div>
+    <div class="max-w-3xl mx-auto relative">
+      <div class="reveal">
+        <span class="text-xs font-mono uppercase tracking-[0.2em] text-sky-600 mb-4 block">Credentials</span>
+        <h2 class="font-serif text-3xl md:text-5xl font-normal tracking-tight gradient-text mb-12">Certifications</h2>
+      </div>
+      <div class="space-y-4">
+        <a href="https://myasn.bkn.go.id/verifikasi/kartu-asn?qr=Rk5FS256aUppZDlMeSUyRlI1VFFvMlFEVGJ6T1VIb2RBelglMkJtZlo1TlNvZDNrVG5raTd6bU9tS2RrZ09BSyUyRjA5Tw==nbks4pkb3e1a8c57f9fe70e3fec11f88f3742457c7950ea" target="_blank" class="reveal card-hover block p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm group">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform duration-500"><i data-lucide="shield-check" class="w-6 h-6 text-sky-600"></i></div>
+              <div>
+                <h3 class="text-base font-medium text-zinc-900 group-hover:text-sky-600 transition-colors">ASN (Aparatur Sipil Negara) — Verified</h3>
+                <p class="text-xs text-zinc-400 mt-0.5">Government Employee Credential — BKN</p>
+              </div>
+            </div>
+            <i data-lucide="external-link" class="w-5 h-5 text-zinc-300 group-hover:text-sky-500 transition-colors flex-shrink-0"></i>
+          </div>
+        </a>
+        <div class="reveal card-hover p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center flex-shrink-0"><i data-lucide="award" class="w-6 h-6 text-sky-600"></i></div>
+            <div>
+              <h3 class="text-base font-medium text-zinc-900">Master of Statistics <span class="text-xs font-normal text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-md ml-2">In Progress</span></h3>
+              <p class="text-xs text-zinc-400 mt-0.5">Institut Teknologi Sepuluh Nopember — Expected Feb 2026</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0"><i data-lucide="award" class="w-6 h-6 text-emerald-600"></i></div>
+            <div>
+              <h3 class="text-base font-medium text-zinc-900">Bachelor of Statistics</h3>
+              <p class="text-xs text-zinc-400 mt-0.5">Sekolah Tinggi Ilmu Statistik, 2015</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal card-hover p-6 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 flex items-center justify-center flex-shrink-0"><i data-lucide="trophy" class="w-6 h-6 text-amber-600"></i></div>
+            <div>
+              <h3 class="text-base font-medium text-zinc-900">Mathematics Olympiad — Runner Up</h3>
+              <p class="text-xs text-zinc-400 mt-0.5">Regency Level, SMA N. 1 Pangururan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="py-24 md:py-32 px-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="reveal">
+        <span class="text-xs font-mono uppercase tracking-[0.2em] text-sky-600 mb-4 block">Experience</span>
+        <h2 class="font-serif text-3xl md:text-5xl font-normal tracking-tight gradient-text mb-12">Work Experience</h2>
+      </div>
+      <div class="relative">
+        <div class="absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-sky-300 via-zinc-200 to-transparent"></div>
+        <div class="reveal relative pl-14 pb-12">
+          <div class="absolute left-2.5 top-1 w-5 h-5 rounded-full bg-sky-500 border-4 border-white shadow-[0_0_12px_rgba(14,165,233,0.3)]"></div>
+          <span class="text-xs font-mono text-sky-600 tracking-wider">2018 — Now</span>
+          <h3 class="text-lg font-medium text-zinc-900 mt-1">Data Analyst at BPS Provinsi Papua</h3>
+          <p class="text-sm text-zinc-500 leading-relaxed mt-3">As a fulltime data analyst with five years of experience BPS Papua Province, I've honed my skills in data collection, cleaning, analysis, and visualization. My proficiency in statistical software like Microsoft Excel, R, and Python has enabled me to successfully participate in projects such as Sensus Penduduk 2020 and Sensus Pertanian 2023 and more Survey. I've consistently delivered accurate and reliable insights, driving informed decision-making within the government sector.</p>
+        </div>
+        <div class="reveal relative pl-14">
+          <div class="absolute left-2.5 top-1 w-5 h-5 rounded-full bg-zinc-400 border-4 border-white"></div>
+          <span class="text-xs font-mono text-zinc-400 tracking-wider">2016 — 2018</span>
+          <h3 class="text-lg font-medium text-zinc-900 mt-1">Data Analyst at BPS Kabupaten Mimika</h3>
+          <p class="text-sm text-zinc-500 leading-relaxed mt-3">I have a solid three-year background as a data analyst at the Mimika District Central Statistics Agency. My role encompassed a wide range of data management tasks, including data collection, cleaning, analysis, and visualization. Leveraging statistical software like Microsoft Excel, R, and Python, I successfully executed surveys, analyzed census and survey data, and developed robust statistical models. I've made significant contributions to projects such as Sensus Ekonomi 2016 and numerous other surveys.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" class="py-24 md:py-32 px-6 bg-white relative overflow-hidden">
+    <div class="absolute inset-0 bg-dots opacity-20 pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto relative">
+      <div class="reveal">
+        <span class="text-xs font-mono uppercase tracking-[0.2em] text-sky-600 mb-4 block">Portfolio</span>
+        <h2 class="font-serif text-3xl md:text-5xl font-normal tracking-tight gradient-text mb-8">Recent Projects</h2>
+      </div>
+      <div class="reveal flex flex-wrap items-center justify-center gap-2 mb-10">
+        <button class="filter-btn active px-5 py-2 text-xs font-medium rounded-full border transition-all" data-filter="all">All</button>
+        <button class="filter-btn px-5 py-2 text-xs font-medium rounded-full border transition-all" data-filter="statistic">Statistic</button>
+        <button class="filter-btn px-5 py-2 text-xs font-medium rounded-full border transition-all" data-filter="visualization">Visualization</button>
+        <button class="filter-btn px-5 py-2 text-xs font-medium rounded-full border transition-all" data-filter="ml">Machine Learning</button>
+      </div>
+      <div id="project-grid" class="grid sm:grid-cols-2 gap-6 relative">
+        <div class="reveal project-item project-card visualization" data-category="visualization">
+          <div class="rounded-2xl border border-zinc-200 overflow-hidden bg-zinc-50 card-hover shadow-sm">
+            <div class="aspect-[16/10] overflow-hidden relative"><img src="images/img-1.jpg" alt="Data Visualization Dashboard" class="project-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-zinc-50/95 via-transparent to-transparent"></div></div>
+            <div class="p-6">
+              <h3 class="text-base font-medium text-zinc-900 mb-1">Data Visualization Dashboard</h3>
+              <p class="text-xs text-zinc-400 mb-3">Interactive dashboards for exploring datasets and presenting insights visually.</p>
+              <div class="flex flex-wrap gap-1.5 mb-3"><span class="px-2 py-0.5 text-[10px] text-sky-600 bg-sky-50 border border-sky-100 rounded-md font-medium">Tableau</span><span class="px-2 py-0.5 text-[10px] text-sky-600 bg-sky-50 border border-sky-100 rounded-md font-medium">Shiny R</span></div>
+              <div class="space-y-1.5">
+                <a href="dashboard_Film_Cost.html" class="flex items-center gap-2 text-sm text-zinc-500 hover:text-sky-600 transition-colors"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> Film Production Cost Dashboard</a>
+                <a href="https://public.tableau.com/views/datavis2_17309996633230/Dashboard1" target="_blank" class="flex items-center gap-2 text-sm text-zinc-500 hover:text-sky-600 transition-colors"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> House Price at DKI Jakarta 2024</a>
+                <a href="https://xlqb10-eko-karto.shinyapps.io/latihanShinyR/" target="_blank" class="flex items-center gap-2 text-sm text-zinc-500 hover:text-sky-600 transition-colors"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> Shiny R App</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal project-item project-card ml" data-category="ml">
+          <div class="rounded-2xl border border-zinc-200 overflow-hidden bg-zinc-50 card-hover h-full shadow-sm">
+            <div class="aspect-[16/10] overflow-hidden relative"><img src="images/img-2.jpg" alt="Data Cleaning Pipeline" class="project-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-zinc-50/95 via-transparent to-transparent"></div></div>
+            <div class="p-6">
+              <h3 class="text-base font-medium text-zinc-900 mb-1">Data Cleaning Pipeline</h3>
+              <p class="text-xs text-zinc-400 mb-3">Automated workflows for handling missing values, outliers, and data standardization.</p>
+              <div class="flex flex-wrap gap-1.5"><span class="px-2 py-0.5 text-[10px] text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-md font-medium">Python</span><span class="px-2 py-0.5 text-[10px] text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-md font-medium">Pandas</span><span class="px-2 py-0.5 text-[10px] text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-md font-medium">SQL</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal project-item project-card ml" data-category="ml">
+          <div class="rounded-2xl border border-zinc-200 overflow-hidden bg-zinc-50 card-hover shadow-sm">
+            <div class="aspect-[16/10] overflow-hidden relative"><img src="images/img-3.jpg" alt="Data Mining" class="project-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-zinc-50/95 via-transparent to-transparent"></div></div>
+            <div class="p-6">
+              <h3 class="text-base font-medium text-zinc-900 mb-1">Data Mining</h3>
+              <p class="text-xs text-zinc-400 mb-3">Web scraping and text mining to extract structured data from publications and news sources.</p>
+              <div class="flex flex-wrap gap-1.5 mb-3"><span class="px-2 py-0.5 text-[10px] text-amber-600 bg-amber-50 border border-amber-100 rounded-md font-medium">Python</span><span class="px-2 py-0.5 text-[10px] text-amber-600 bg-amber-50 border border-amber-100 rounded-md font-medium">Streamlit</span><span class="px-2 py-0.5 text-[10px] text-amber-600 bg-amber-50 border border-amber-100 rounded-md font-medium">BeautifulSoup</span></div>
+              <a href="Scraping publikasi BPS.html" class="flex items-center gap-2 text-sm text-zinc-500 hover:text-sky-600 transition-colors mb-3"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> Scraping publikasi BPS</a>
+              <div class="p-3 rounded-xl bg-sky-50 border border-sky-200 border-l-4 border-l-sky-500">
+                <span class="text-[10px] font-bold text-sky-600 uppercase tracking-wider">Featured Project</span>
+                <a href="https://newscrapper.streamlit.app/" target="_blank" class="flex items-center gap-2 text-sm text-amber-600 hover:text-amber-700 font-semibold transition-colors mt-1">🚀 News Intelligence Dashboard</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal project-item project-card statistic" data-category="statistic">
+          <div class="rounded-2xl border border-zinc-200 overflow-hidden bg-zinc-50 card-hover h-full shadow-sm">
+            <div class="aspect-[16/10] overflow-hidden relative"><img src="images/img-4.jpg" alt="Statistical Summary Report" class="project-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-zinc-50/95 via-transparent to-transparent"></div></div>
+            <div class="p-6">
+              <h3 class="text-base font-medium text-zinc-900 mb-1">Statistical Summary Report</h3>
+              <p class="text-xs text-zinc-400 mb-3">Comprehensive descriptive statistics and summary reports for survey and census datasets.</p>
+              <div class="flex flex-wrap gap-1.5"><span class="px-2 py-0.5 text-[10px] text-violet-600 bg-violet-50 border border-violet-100 rounded-md font-medium">R</span><span class="px-2 py-0.5 text-[10px] text-violet-600 bg-violet-50 border border-violet-100 rounded-md font-medium">Excel</span><span class="px-2 py-0.5 text-[10px] text-violet-600 bg-violet-50 border border-violet-100 rounded-md font-medium">SPSS</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal project-item project-card statistic" data-category="statistic">
+          <div class="rounded-2xl border border-zinc-200 overflow-hidden bg-zinc-50 card-hover shadow-sm">
+            <div class="aspect-[16/10] overflow-hidden relative"><img src="images/img-5.jpg" alt="Inference Analysis" class="project-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-zinc-50/95 via-transparent to-transparent"></div></div>
+            <div class="p-6">
+              <h3 class="text-base font-medium text-zinc-900 mb-1">Inference Analysis</h3>
+              <p class="text-xs text-zinc-400 mb-3">Statistical simulations and inference methods including sampling techniques and distribution modeling.</p>
+              <div class="flex flex-wrap gap-1.5 mb-3"><span class="px-2 py-0.5 text-[10px] text-violet-600 bg-violet-50 border border-violet-100 rounded-md font-medium">R</span><span class="px-2 py-0.5 text-[10px] text-violet-600 bg-violet-50 border border-violet-100 rounded-md font-medium">Python</span></div>
+              <div class="space-y-1.5">
+                <a href="ARSampling.html" class="flex items-center gap-2 text-sm text-zinc-500 hover:text-sky-600 transition-colors"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> Acceptance Rejection Sampling</a>
+                <a href="MSNBurr_Distribution.html" class="flex items-center gap-2 text-sm text-zinc-500 hover:text-sky-600 transition-colors"><i data-lucide="external-link" class="w-3.5 h-3.5"></i> MSN Burr Distribution Simulation</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal project-item project-card statistic" data-category="statistic">
+          <div class="rounded-2xl border border-zinc-200 overflow-hidden bg-zinc-50 card-hover h-full shadow-sm">
+            <div class="aspect-[16/10] overflow-hidden relative"><img src="images/img-6.jpg" alt="Research Progress Report" class="project-img w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-zinc-50/95 via-transparent to-transparent"></div></div>
+            <div class="p-6">
+              <h3 class="text-base font-medium text-zinc-900 mb-1">Research Progress Report</h3>
+              <p class="text-xs text-zinc-400 mb-3">Documenting research methodology, findings, and progress for academic and institutional reporting.</p>
+              <div class="flex flex-wrap gap-1.5"><span class="px-2 py-0.5 text-[10px] text-violet-600 bg-violet-50 border border-violet-100 rounded-md font-medium">LaTeX</span><span class="px-2 py-0.5 text-[10px] text-violet-600 bg-violet-50 border border-violet-100 rounded-md font-medium">R</span><span class="px-2 py-0.5 text-[10px] text-violet-600 bg-violet-50 border border-violet-100 rounded-md font-medium">Word</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-24 md:py-32 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <span class="text-xs font-mono uppercase tracking-[0.2em] text-sky-600 mb-4 block">Get in Touch</span>
+        <h2 class="font-serif text-3xl md:text-5xl font-normal tracking-tight gradient-text mb-12">Contact</h2>
+      </div>
+      <div class="grid md:grid-cols-5 gap-10">
+        <div class="md:col-span-2 space-y-5">
+          <a href="mailto:yenro08@gmail.com" class="reveal flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-2xl bg-white border border-zinc-200 flex items-center justify-center flex-shrink-0 group-hover:border-sky-300 group-hover:bg-sky-50 transition-all duration-300 shadow-sm"><i data-lucide="mail" class="w-5 h-5 text-zinc-500 group-hover:text-sky-600 transition-colors"></i></div>
+            <div><div class="text-[10px] text-zinc-400 uppercase tracking-wider">Email</div><div class="text-sm text-zinc-900 group-hover:text-sky-600 transition-colors">yenro08@gmail.com</div></div>
+          </a>
+          <div class="reveal flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-white border border-zinc-200 flex items-center justify-center flex-shrink-0 shadow-sm"><i data-lucide="map-pin" class="w-5 h-5 text-zinc-500"></i></div>
+            <div><div class="text-[10px] text-zinc-400 uppercase tracking-wider">Location</div><div class="text-sm text-zinc-900">Jayapura City, Papua Indonesia</div></div>
+          </div>
+          <a href="https://www.linkedin.com/in/yenrosagala" target="_blank" class="reveal flex items-center gap-4 group">
+            <div class="w-12 h-12 rounded-2xl bg-white border border-zinc-200 flex items-center justify-center flex-shrink-0 group-hover:border-sky-300 group-hover:bg-sky-50 transition-all duration-300 shadow-sm"><i data-lucide="linkedin" class="w-5 h-5 text-zinc-500 group-hover:text-sky-600 transition-colors"></i></div>
+            <div><div class="text-[10px] text-zinc-400 uppercase tracking-wider">LinkedIn</div><div class="text-sm text-zinc-900 group-hover:text-sky-600 transition-colors">yenrosagala</div></div>
+          </a>
+        </div>
+        <div class="md:col-span-3 reveal">
+          <form id="contact-form" class="p-6 md:p-8 rounded-2xl bg-white border border-zinc-200 space-y-4 shadow-sm">
+            <div><input type="text" name="name" required placeholder="Name" class="w-full px-4 py-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition-all outline-none"></div>
+            <div><input type="email" name="email" required placeholder="Email" class="w-full px-4 py-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition-all outline-none"></div>
+            <div><input type="text" name="subject" placeholder="Subject" class="w-full px-4 py-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition-all outline-none"></div>
+            <div><textarea name="message" required rows="5" placeholder="Message" class="w-full px-4 py-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-sky-400 focus:ring-2 focus:ring-sky-100 transition-all outline-none resize-none"></textarea></div>
+            <button type="submit" id="submit-btn" class="w-full py-3.5 bg-zinc-900 text-white text-sm font-semibold rounded-xl hover:bg-zinc-800 transition-all hover:shadow-lg hover:shadow-zinc-900/15 flex items-center justify-center gap-2">
+              <span id="btn-text">Send Message</span>
+              <i data-lucide="send" class="w-4 h-4" id="btn-icon"></i>
+              <svg id="btn-spinner" class="hidden w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="opacity-25"/><path d="M4 12a8 8 0 018-8" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="opacity-75"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="py-8 px-6 flex justify-center">
+    <a href="#home" class="w-10 h-10 rounded-xl border border-zinc-200 bg-white flex items-center justify-center hover:border-zinc-300 hover:shadow-sm transition-all shadow-sm" aria-label="Back to top"><i data-lucide="arrow-up" class="w-4 h-4 text-zinc-500"></i></a>
+  </div>
+</main>
+
+<div id="toast-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100]"></div>
+
+<script>
+  lucide.createIcons();
+  const sidebar=document.getElementById('sidebar'),overlay=document.getElementById('sidebar-overlay'),toggle=document.getElementById('sidebar-toggle');
+  function openSidebar(){sidebar.classList.remove('closed');overlay.classList.remove('hidden')}
+  function closeSidebar(){sidebar.classList.add('closed');overlay.classList.add('hidden')}
+  toggle.addEventListener('click',openSidebar);overlay.addEventListener('click',closeSidebar);
+  document.querySelectorAll('.sidebar-link').forEach(l=>l.addEventListener('click',closeSidebar));
+  const sections=document.querySelectorAll('section[id]'),navLinks=document.querySelectorAll('.sidebar-link');
+  window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-200)c=s.id});navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+c)l.classList.add('active')})});
+  const reveals=document.querySelectorAll('.reveal');
+  const observer=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+  reveals.forEach(el=>observer.observe(el));
+  const counters=document.querySelectorAll('.counter-num');let counterDone=false;
+  const cObs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting&&!counterDone){counterDone=true;counters.forEach(c=>{const t=+c.dataset.target,s=performance.now();function tick(n){const p=Math.min((n-s)/2000,1),ease=1-Math.pow(1-p,3);c.textContent=Math.floor(ease*t);if(p<1)requestAnimationFrame(tick);else c.textContent=t}requestAnimationFrame(tick)})}})},{threshold:0.3});
+  counters.forEach(c=>cObs.observe(c));
+  document.querySelectorAll('.accordion-btn').forEach(btn=>{btn.addEventListener('click',()=>{const body=btn.nextElementSibling,chev=btn.querySelector('.accordion-chevron'),isOpen=body.classList.contains('open');document.querySelectorAll('.accordion-body').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.accordion-chevron').forEach(c=>c.classList.remove('open'));document.querySelectorAll('.accordion-btn').forEach(b=>b.setAttribute('aria-expanded','false'));if(!isOpen){body.classList.add('open');chev.classList.add('open');btn.setAttribute('aria-expanded','true')}})});
+  const filterBtns=document.querySelectorAll('.filter-btn'),projectItems=document.querySelectorAll('.project-item');
+  function updateFS(){filterBtns.forEach(b=>{if(b.classList.contains('active')){b.style.background='#18181b';b.style.color='#fff';b.style.borderColor='#18181b'}else{b.style.background='transparent';b.style.color='#71717a';b.style.borderColor='#e4e4e7'}})}
+  updateFS();
+  filterBtns.forEach(btn=>{btn.addEventListener('click',e=>{e.preventDefault();filterBtns.forEach(b=>b.classList.remove('active'));btn.classList.add('active');updateFS();const f=btn.dataset.filter;projectItems.forEach(item=>{if(f==='all'||item.dataset.category===f){item.classList.remove('hidden-item');item.style.position=''}else{item.classList.add('hidden-item');setTimeout(()=>{if(item.classList.contains('hidden-item'))item.style.position='absolute'},400)}})})});
+  function showToast(m,t='success'){const c=document.getElementById('toast-container'),el=document.createElement('div'),cls=t==='success'?'bg-emerald-50 border-emerald-200 text-emerald-700':'bg-red-50 border-red-200 text-red-700',ico=t==='success'?'check-circle':'alert-circle';el.className=`toast-in flex items-center gap-3 px-5 py-3.5 rounded-2xl border shadow-xl ${cls} text-sm font-medium`;el.innerHTML=`<i data-lucide="${ico}" class="w-5 h-5 flex-shrink-0"></i><span>${m}</span>`;c.innerHTML='';c.appendChild(el);lucide.createIcons({nodes:[el]});setTimeout(()=>{el.classList.remove('toast-in');el.classList.add('toast-out');setTimeout(()=>el.remove(),400)},4000)}
+  document.getElementById('contact-form').addEventListener('submit',e=>{e.preventDefault();const f=e.target;if(!f.name.value.trim()||!f.email.value.trim()||!f.message.value.trim()){showToast('Please fill in all required fields.','error');return}const btn=document.getElementById('submit-btn'),bt=document.getElementById('btn-text'),bi=document.getElementById('btn-icon'),bs=document.getElementById('btn-spinner');bt.textContent='Sending...';bi.classList.add('hidden');bs.classList.remove('hidden');btn.disabled=true;btn.style.opacity='0.7';setTimeout(()=>{bt.textContent='Send Message';bi.classList.remove('hidden');bs.classList.add('hidden');btn.disabled=false;btn.style.opacity='1';f.reset();showToast('Message sent successfully!','success')},2000)});
+</script>
+</body>
+</html>
